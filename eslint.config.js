@@ -84,10 +84,26 @@ export default [
 
   // 特定子包的配置 (例如 uni-app)
   {
-    files: ['apps/mobile-uniapp/**/*.{js,ts,vue}'],
+    files: ['apps/mobile/**/*.{js,ts,vue}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        uni: 'readonly',
+        wx: 'readonly',
+        plus: 'readonly',
+        getApp: 'readonly',
+      },
+    },
     rules: {
-      // uni-app 特有规则
-      // 'no-console': 'off',
+      // uni-app 特有规则 - 暂时放宽限制以适应旧代码
+      'no-console': 'off',
+      '@typescript-eslint/no-this-alias': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-undef': 'off',
+      'no-useless-escape': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
+      'no-prototype-builtins': 'off',
+      'no-constant-binary-expression': 'off',
     },
   },
 

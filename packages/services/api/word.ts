@@ -5,7 +5,7 @@
  */
 
 import { api } from './base';
-import type { Word, Character, WordSearchParams } from '../types';
+import type { Word, Character } from '../types';
 
 /**
  * Get word details by ID
@@ -41,7 +41,7 @@ export async function getWordsByIds(ids: number[]): Promise<Word[]> {
 export async function getPhoneticOrder(): Promise<any> {
   try {
     return api.get<{ record: any }>('/words/phonetic_ordering').then((res) => res.record);
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -58,9 +58,9 @@ export async function searchDictionary(
     return api
       .post<{ words: Word[] }>('/words/dictionary', { order, prefix, recursion })
       .then((res) => res.words);
-  } catch (error: any) {
-    if (error?.data?.words) {
-      return error.data.words;
+  } catch (_error: any) {
+    if (_error?.data?.words) {
+      return _error.data.words;
     }
     return [];
   }

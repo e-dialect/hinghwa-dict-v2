@@ -63,7 +63,6 @@ function analyseDefinition(definition, order) {
  * 将数据库中的释义字符串进行拆分
  * @param definition 释义字符串
  */
-// eslint-disable-next-line import/prefer-default-export
 export function splitDefinition(definition) {
   const order = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
   let lastIndex = -1;

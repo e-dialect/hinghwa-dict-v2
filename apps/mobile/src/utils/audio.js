@@ -3,7 +3,6 @@
  * @param src 音频地址
  * @param warn 是否警告
  */
-// eslint-disable-next-line import/prefer-default-export
 export function playAudio(src, warn = true) {
   if (!src || src === 'null') {
     if (warn) {

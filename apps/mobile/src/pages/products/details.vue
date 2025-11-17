@@ -40,7 +40,6 @@
   </view>
 </template>
 <script>
-// eslint-disable-next-line import/extensions
 import { getGoodDetail } from '@/services/point.js';
 
 export default {

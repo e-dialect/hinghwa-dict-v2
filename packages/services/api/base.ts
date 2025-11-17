@@ -10,7 +10,7 @@
  */
 export const API_CONFIG = {
   // Base URL for the API - to be configured based on environment
-  baseURL: process.env.API_BASE_URL || 'https://api.pxm.edialect.top',
+  baseURL: 'https://api.pxm.edialect.top',
   // Timeout for requests
   timeout: 30000,
 };
@@ -23,7 +23,7 @@ export const API_CONFIG = {
  */
 export async function request<T>(
   endpoint: string,
-  options?: RequestInit
+  options?: Record<string, any>
 ): Promise<T> {
   const url = `${API_CONFIG.baseURL}${endpoint}`;
   
