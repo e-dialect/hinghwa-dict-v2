@@ -10,10 +10,15 @@ export const COS_URL = 'https://cos.edialect.top/miniprogram';
 
 /**
  * Base API URL - determined by environment
+ * Applications should override this based on their build configuration
+ * @default https://api.pxm.test.edialect.top (development)
  */
-export const BASE_URL = import.meta.env?.MODE === 'production'
-  ? 'https://api.pxm.edialect.top'
-  : 'https://api.pxm.test.edialect.top';
+export const BASE_URL = 'https://api.pxm.test.edialect.top';
+
+/**
+ * Production API URL
+ */
+export const PRODUCTION_API_URL = 'https://api.pxm.edialect.top';
 
 /**
  * Default article cover image
