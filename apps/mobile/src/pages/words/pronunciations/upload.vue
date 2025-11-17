@@ -136,7 +136,7 @@
 
 <script>
 import { uploadFile } from '@/services/file';
-import { counties, towns } from '@/const/location';
+import { counties, towns } from 'constants/dialects/puxian';
 import { createPronunciation } from '@/services/pronunciation';
 import { playAudio } from '@/utils/audio';
 import { getWordDetails } from '@/services/word';

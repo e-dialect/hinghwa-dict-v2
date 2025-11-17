@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/const/urls';
+import { BASE_URL } from 'constants/shared';
 
 /**
  * 上传文件

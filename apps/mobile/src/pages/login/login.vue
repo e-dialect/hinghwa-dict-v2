@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { COS_URL } from '@/const/urls';
+import { COS_URL } from 'constants/shared';
 import { mpLogin, normalLogin } from '@/services/login';
 import { toForgetPage, toRegisterPage, toWechatRegisterPage } from '@/routers/login';
 import CuCustom from '@/colorui/components/cu-custom.vue';

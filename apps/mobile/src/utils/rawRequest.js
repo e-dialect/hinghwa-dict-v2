@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/const/urls';
+import { BASE_URL } from 'constants/shared';
 
 const request = (method = 'GET', url = '', data = {}) => {
   uni.showLoading({

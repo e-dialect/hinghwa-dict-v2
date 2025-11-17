@@ -114,7 +114,7 @@
 import { searchCharactersByFilters } from '@/services/character';
 import { defaultMessage } from '@/services/shareMessages';
 import { toWordPage } from '@/routers/word';
-import utils from '@/const/sheng-yun-diao';
+import utils from 'constants/dialects/puxian/search';
 import WordPronunciationButton from '@/components/WordPronunciationButton.vue';
 
 export default {

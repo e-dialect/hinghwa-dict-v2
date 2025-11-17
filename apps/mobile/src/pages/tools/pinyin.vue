@@ -224,7 +224,7 @@
 </template>
 
 <script>
-import utils from '@/const/pinyin';
+import utils from 'constants/dialects/puxian/phonology';
 import { defaultMessage } from '@/services/shareMessages';
 import MarkdownViewer from '@/components/MarkdownViewer.vue';
 

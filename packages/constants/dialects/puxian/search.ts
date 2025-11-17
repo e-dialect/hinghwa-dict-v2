@@ -103,3 +103,27 @@ export const finalVowels: FinalOption[] = [
     ],
   },
 ];
+
+/**
+ * Tone filters with examples
+ * Used for tone-based searches
+ */
+export const toneFilters: Record<string, string> = {
+  all: 'all：全部声调',
+  1: '1：阴平533（机诗）',
+  2: '2：阳平13（棋时）',
+  3: '3：上声453（己死）',
+  4: '4：阴去42（记四）',
+  5: '5：阳去11（义寺）',
+  6: '6：阴入2（急息）',
+  7: '7：阳入4（及实）',
+};
+
+/**
+ * Default export for backward compatibility with old structure
+ */
+export default {
+  shengmu: initialConsonants,
+  yunmu: finalVowels,
+  shengdiao: toneFilters,
+};

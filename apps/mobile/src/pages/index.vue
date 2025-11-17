@@ -29,7 +29,7 @@
 <script>
 import { defaultMessage } from '@/services/shareMessages';
 import { toLoginPage } from '@/routers/login';
-import { COS_URL } from '../const/urls';
+import { COS_URL } from 'constants/shared';
 import basics from './home.vue';
 import tools from './tools/index.vue';
 import InteractionPage from './articles/index.vue';

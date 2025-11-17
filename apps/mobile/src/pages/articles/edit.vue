@@ -151,7 +151,7 @@
 <script>
 import { createArticle, getArticle, updateArticle } from '@/services/article';
 import { chooseAndUploadAnImage } from '@/services/file';
-import { DefaultArticleCover } from '@/const/urls';
+import { DEFAULT_ARTICLE_COVER } from 'constants/shared';
 import CuCustom from '@/colorui/components/cu-custom.vue';
 import MarkdownViewer from '@/components/MarkdownViewer.vue';
 
@@ -164,7 +164,7 @@ export default {
       id: 0, // 文章 id ，0 为新建文章
       article: {
         title: '',
-        cover: DefaultArticleCover,
+        cover: DEFAULT_ARTICLE_COVER,
         description: '',
         content: '',
       },
@@ -191,7 +191,7 @@ export default {
         uni.showToast({
           title: '出错啦',
         });
-        this.article.cover = DefaultArticleCover;
+        this.article.cover = DEFAULT_ARTICLE_COVER;
       }
     },
 

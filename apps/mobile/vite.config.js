@@ -16,6 +16,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(projectRootDir, 'src'),
+      'constants': resolve(__dirname, '../../packages/constants'),
     },
   },
 });

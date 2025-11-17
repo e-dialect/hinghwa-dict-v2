@@ -15,6 +15,7 @@
     "lint:fix": "eslint --ext .js,.vue src --max-warnings 0 --fix"
   },
   "dependencies": {
+    "constants": "workspace:*",
     "@dcloudio/uni-app": "3.0.0-3061820230117001",
     "@dcloudio/uni-app-plus": "3.0.0-3061820230117001",
     "@dcloudio/uni-components": "3.0.0-3061820230117001",
