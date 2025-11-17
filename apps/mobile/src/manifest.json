@@ -103,7 +103,7 @@
     "vueVersion" : "3",
     "h5" : {
         "devServer" : {
-            "port" : 80
+            "port" : 8080
         },
         "sdkConfigs" : {
             "maps" : {}
