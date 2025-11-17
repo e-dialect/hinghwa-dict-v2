@@ -7,6 +7,10 @@
   "scripts": {
     "dev": "pnpm --parallel --filter \"apps/*\" dev",
     "build": "pnpm --parallel --filter \"apps/*\" build",
+    "dev:web": "pnpm --filter web dev",
+    "dev:mobile": "pnpm --filter mobile dev",
+    "build:web": "pnpm --filter web build",
+    "build:mobile": "pnpm --filter mobile build",
     "lint": "eslint . --fix",
     "lint:check": "eslint ."
   },
