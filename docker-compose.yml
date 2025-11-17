@@ -1,0 +1,127 @@
+version: '3.8'
+
+services:
+  # Pocketbase Backend
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: hinghwa-pocketbase
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./pocketbase/pb_data:/pb/pb_data
+      - ./pocketbase/pb_migrations:/pb/pb_migrations
+      - ./pocketbase/pb_hooks:/pb/pb_hooks
+    environment:
+      - POCKETBASE_ENCRYPTION_KEY=${POCKETBASE_ENCRYPTION_KEY:-change-me-in-production}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8090/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - hinghwa-network
+
+  # Audio Synthesis Service
+  audio-service:
+    build:
+      context: ./audio-service
+      dockerfile: Dockerfile
+    container_name: hinghwa-audio-service
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./audio-service/phonemes:/app/phonemes:ro
+      - ./audio-service/output:/app/output
+    environment:
+      - PHONEME_DIR=/app/phonemes
+      - OUTPUT_DIR=/app/output
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - hinghwa-network
+    depends_on:
+      - pocketbase
+
+  # Mobile App (Development)
+  mobile-app:
+    build:
+      context: ./apps/mobile
+      dockerfile: Dockerfile.dev
+    container_name: hinghwa-mobile-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/mobile:/app
+      - /app/node_modules
+      - /app/.nuxt
+    environment:
+      - NODE_ENV=development
+      - POCKETBASE_URL=http://pocketbase:8090
+      - AUDIO_SERVICE_URL=http://audio-service:8001
+    networks:
+      - hinghwa-network
+    depends_on:
+      - pocketbase
+      - audio-service
+    command: pnpm dev:h5
+
+  # Web App (Development)
+  web-app:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    container_name: hinghwa-web-app
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.nuxt
+    environment:
+      - NODE_ENV=development
+      - POCKETBASE_URL=http://pocketbase:8090
+      - AUDIO_SERVICE_URL=http://audio-service:8001
+    networks:
+      - hinghwa-network
+    depends_on:
+      - pocketbase
+      - audio-service
+    command: pnpm dev
+
+  # Nginx Reverse Proxy (Production)
+  nginx:
+    image: nginx:alpine
+    container_name: hinghwa-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - hinghwa-network
+    depends_on:
+      - pocketbase
+      - audio-service
+      - mobile-app
+      - web-app
+    profiles:
+      - production
+
+networks:
+  hinghwa-network:
+    driver: bridge
+
+volumes:
+  pb_data:
+  audio_output:
