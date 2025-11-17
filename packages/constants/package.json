@@ -1,0 +1,18 @@
+{
+  "name": "constants",
+  "version": "1.0.0",
+  "description": "Shared constants for Hinghwa Dictionary applications, including dialect-specific data",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./shared": "./shared/index.ts",
+    "./dialects/*": "./dialects/*/index.ts"
+  },
+  "scripts": {},
+  "keywords": ["constants", "dialect", "puxian", "hinghwa"],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.20.0"
+}

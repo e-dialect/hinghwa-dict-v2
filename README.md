@@ -12,7 +12,9 @@ hinghwa-v2-frontend/
 │   ├── web/                # Web 端应用 (Nuxt 3)
 │   └── mobile/             # 移动端应用 (uni-app)
 ├── packages/               # 共享包
-│   └── services/           # API 服务和类型定义
+│   ├── services/           # API 服务和类型定义
+│   └── constants/          # 共享常量（支持多方言）
+├── docs/                   # 文档
 └── pnpm-workspace.yaml     # pnpm 工作区配置
 ```
 
@@ -24,6 +26,7 @@ hinghwa-v2-frontend/
 ### Packages
 
 - **services**: 共享的 API 服务层和 TypeScript 类型定义，将逐步迁移至使用 PocketBase SDK
+- **constants**: 共享常量和方言特定数据，支持多方言扩展（当前支持莆仙话，结构可扩展至其他方言）
 
 ## 技术栈
 
@@ -118,14 +121,56 @@ packages/services/
 
 类型定义将通过 `pocketbase-typegen` 从 PocketBase 数据库自动生成。
 
+## 多方言支持架构
+
+本项目采用可扩展的多方言架构设计，当前支持莆仙话（兴化话），但结构设计可轻松扩展至其他方言：
+
+### Constants Package 结构
+
+```
+packages/constants/
+├── shared/              # 通用常量（所有方言共用）
+│   └── urls.ts         # API 端点、CDN URL
+└── dialects/           # 方言特定数据
+    └── puxian/         # 莆仙话数据
+        ├── location.ts     # 地理数据（区县、乡镇）
+        ├── phonology.ts    # 音系（声韵调）
+        └── search.ts       # 搜索过滤器
+```
+
+### 使用方式
+
+```typescript
+// 导入通用常量
+import { BASE_URL, API_ENDPOINTS } from 'constants/shared';
+
+// 导入方言特定数据
+import { puxian } from 'constants/dialects/puxian';
+const { counties, initials, tones } = puxian;
+
+// 动态加载（支持多方言切换）
+import { loadDialect } from 'constants';
+const dialect = await loadDialect('puxian');
+```
+
+### 添加新方言
+
+1. 在 `packages/constants/dialects/` 下创建新目录（如 `fuzhou/`）
+2. 添加该方言的 location、phonology、search 等文件
+3. 更新 `src/index.ts` 导出新方言
+4. 在应用中使用动态加载切换方言
+
+详细架构设计见 [docs/MULTI_DIALECT_ARCHITECTURE.md](./docs/MULTI_DIALECT_ARCHITECTURE.md)
+
 ## 迁移说明
 
 本项目正在从旧的 Django 后端迁移到 PocketBase 后端：
 
 1. ✅ 前端代码已迁移到 monorepo 结构
 2. ✅ 建立了 TypeScript 服务层框架
-3. ⏳ API 正在逐步迁移到 PocketBase SDK
-4. ⏳ 后端 PocketBase 实例准备中
+3. ✅ 建立了多方言支持的 constants 包
+4. ⏳ API 正在逐步迁移到 PocketBase SDK
+5. ⏳ 后端 PocketBase 实例准备中
 
 ## 相关链接
 

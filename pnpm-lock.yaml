@@ -158,6 +158,8 @@ importers:
         specifier: ^1.10.0
         version: 1.10.0(@typescript-eslint/utils@8.46.4(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.24)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
 
+  packages/constants: {}
+
   packages/services:
     dependencies:
       pocketbase:
