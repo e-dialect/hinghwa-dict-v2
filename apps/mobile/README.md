@@ -48,11 +48,11 @@ pnpm --filter mobile build:app
 src/
 ├── components/     # Reusable Vue components
 ├── pages/         # Page components
-├── services/      # API services (being migrated to packages/services)
+├── services/      # API services (mobile-specific, will be replaced during PocketBase migration)
 ├── utils/         # Utility functions
 ├── colorui/       # ColorUI library
 ├── routers/       # Route configurations
-├── const/         # Constants
+├── const/         # Constants (mobile-specific, shared constants are in packages/constants)
 ├── App.vue        # Root component
 ├── main.js        # Entry point
 ├── manifest.json  # App configuration
@@ -63,7 +63,19 @@ src/
 
 This module was migrated from [hinghwa-dict-uni-app](https://github.com/e-dialect/hinghwa-dict-uni-app) repository.
 
-The API services are being gradually migrated to `packages/services` with TypeScript support and will be refactored to use PocketBase SDK in the future.
+### Current State
+
+- **Services**: The mobile app currently uses its own API services in `src/services/`. These are Django-based APIs that will remain until the PocketBase migration is complete.
+- **Constants**: The mobile app uses its own constants in `src/const/`. Shared constants for future use are available in `packages/constants` but are not yet integrated.
+
+### Future Migration Path
+
+When the PocketBase backend is ready:
+1. The old services in `src/services/` will be replaced with PocketBase SDK calls from `packages/services`
+2. Constants will be migrated to use `packages/constants` for better code sharing across apps
+3. The old Django-based API code will be removed
+
+For now, the mobile app remains self-contained and fully functional with its existing structure.
 
 ## Original Repository
 

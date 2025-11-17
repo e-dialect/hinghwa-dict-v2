@@ -2,6 +2,8 @@
 
 This package provides shared services and API layer for the Hinghwa Dictionary applications.
 
+**Current Status**: This package is prepared for future use. The mobile app (`apps/mobile`) currently uses its own services located in `apps/mobile/src/services/` which will remain until the PocketBase migration is complete.
+
 ## Structure
 
 ```
@@ -34,15 +36,18 @@ Contains business logic and higher-level service functions that:
 
 ## Migration Plan
 
-The services are being migrated from the old Django-based backend API to the new PocketBase backend:
+This package is being prepared for the PocketBase backend migration:
 
 1. ✅ Set up directory structure
-2. ⏳ Copy and convert existing services from JavaScript to TypeScript
-3. ⏳ Create type definitions for current API responses
-4. ⏳ Generate PocketBase types (when backend is ready)
-5. ⏳ Gradually migrate API calls to use PocketBase SDK
+2. ✅ Create base TypeScript structure and types
+3. ⏳ Wait for PocketBase backend to be ready
+4. ⏳ Generate PocketBase types (when backend is available)
+5. ⏳ Implement services using PocketBase SDK
+6. ⏳ Migrate apps to use this shared package (replacing app-specific services)
 
-## Usage
+**Note**: Currently, `apps/mobile` uses its own Django-based services in `apps/mobile/src/services/`. These will be replaced with this package once the PocketBase migration is complete.
+
+## Usage (Future)
 
 ```typescript
 // Import from the services package

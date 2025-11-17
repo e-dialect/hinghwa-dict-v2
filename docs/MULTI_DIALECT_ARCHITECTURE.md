@@ -2,6 +2,8 @@
 
 This guide explains how to structure your application to support multiple Chinese dialects while maintaining code reusability.
 
+**Status**: This document describes the **future architecture** for multi-dialect support. Currently, the mobile app uses its own constants and services. This structure will be implemented during the PocketBase migration.
+
 ## 🎯 Design Principles
 
 ### 1. Separation of Concerns
@@ -39,7 +41,7 @@ This guide explains how to structure your application to support multiple Chines
 
 ### Constants Package (`packages/constants`)
 
-Already structured for multi-dialect support:
+Prepared structure for multi-dialect support:
 
 ```typescript
 // Shared constants (all dialects)
@@ -54,9 +56,11 @@ import { loadDialect } from 'constants';
 const dialect = await loadDialect(userSelectedDialect);
 ```
 
+**Note**: Mobile app currently uses `apps/mobile/src/const/`. This package will be adopted during PocketBase migration.
+
 ### Services Package (`packages/services`)
 
-**Current structure**:
+**Current structure** (prepared for future):
 ```
 packages/services/
 ├── api/           # API request functions
@@ -64,7 +68,9 @@ packages/services/
 └── src/           # Business logic
 ```
 
-**Recommended multi-dialect structure**:
+**Note**: Mobile app currently uses `apps/mobile/src/services/`. This package will be adopted during PocketBase migration.
+
+**Recommended multi-dialect structure** (for future implementation):
 ```
 packages/services/
 ├── api/

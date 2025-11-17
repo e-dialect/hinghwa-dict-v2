@@ -123,9 +123,14 @@ packages/services/
 
 ## 多方言支持架构
 
-本项目采用可扩展的多方言架构设计，当前支持莆仙话（兴化话），但结构设计可轻松扩展至其他方言：
+本项目采用可扩展的多方言架构设计，为未来支持多方言做好准备。
 
-### Constants Package 结构
+**当前状态**: 
+- 移动端应用 (`apps/mobile`) 目前使用自己的常量和服务（位于 `apps/mobile/src/const/` 和 `apps/mobile/src/services/`）
+- `packages/constants` 和 `packages/services` 已准备好，将在 PocketBase 后端迁移时启用
+- 现有代码保持不变，确保应用继续正常运行
+
+### Constants Package 结构（为未来准备）
 
 ```
 packages/constants/
@@ -138,7 +143,7 @@ packages/constants/
         └── search.ts       # 搜索过滤器
 ```
 
-### 使用方式
+### 未来使用方式
 
 ```typescript
 // 导入通用常量
@@ -167,10 +172,11 @@ const dialect = await loadDialect('puxian');
 本项目正在从旧的 Django 后端迁移到 PocketBase 后端：
 
 1. ✅ 前端代码已迁移到 monorepo 结构
-2. ✅ 建立了 TypeScript 服务层框架
-3. ✅ 建立了多方言支持的 constants 包
-4. ⏳ API 正在逐步迁移到 PocketBase SDK
-5. ⏳ 后端 PocketBase 实例准备中
+2. ✅ 建立了 TypeScript 服务层框架（`packages/services`，待 PocketBase 后端就绪后使用）
+3. ✅ 建立了多方言支持的 constants 包（`packages/constants`，为未来多方言扩展准备）
+4. ⏳ 移动端应用暂时保持使用自己的 services 和 constants（`apps/mobile/src/services/` 和 `apps/mobile/src/const/`）
+5. ⏳ 等待 PocketBase 后端完成后，将统一迁移到共享的 packages
+6. ⏳ 后端 PocketBase 实例准备中
 
 ## 相关链接
 

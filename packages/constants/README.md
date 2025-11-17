@@ -2,6 +2,8 @@
 
 Shared constants for all Hinghwa Dictionary applications, organized to support multiple dialects while maintaining a clean separation between shared and dialect-specific data.
 
+**Current Status**: This package is prepared for future use with multi-dialect support. The mobile app (`apps/mobile`) currently uses its own constants located in `apps/mobile/src/const/` which will remain until the multi-dialect refactor is implemented.
+
 ## 📁 Structure
 
 ```
@@ -107,12 +109,14 @@ console.log(dialect.phonology.initials);
 
 ## 🔄 Migration from Old Structure
 
-The constants were previously located in `apps/mobile/src/const/`. They have been:
+The constants from `apps/mobile/src/const/` have been reorganized here with enhancements:
 
 1. **Converted to TypeScript** with proper type definitions
 2. **Organized by concern** (shared vs. dialect-specific)
 3. **Enhanced with metadata** (dialect info, IPA notation)
 4. **Made reusable** across all frontend applications
+
+**Note**: The mobile app currently still uses `apps/mobile/src/const/` and will continue to do so until the multi-dialect refactor. This package serves as the prepared structure for future migration.
 
 ### Compatibility
 
