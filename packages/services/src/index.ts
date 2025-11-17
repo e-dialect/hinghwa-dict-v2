@@ -14,6 +14,7 @@ export * from './api/user.service';
 export * from './api/article.service';
 export * from './api/quiz.service';
 export * from './api/website.service';
+export * from './api/dialect.service';
 
 // Export types
 export * from '../types/pocketbase';

@@ -138,23 +138,101 @@ async function importToPocketbase() {
   await pb.admins.authWithPassword(CONFIG.pbEmail, CONFIG.pbPassword);
   console.log('✓ Authenticated as admin');
   
-  // Create default dialect
-  console.log('Creating default dialect...');
-  let dialect;
+  // Create Puxian dialect with regional variants
+  console.log('Creating Puxian dialect hierarchy...');
+  let puxian, putianCity, xianyouCity, xianyouYouyang;
+  
   try {
-    dialect = await pb.collection('dialects').create({
+    // Main Puxian dialect
+    puxian = await pb.collection('dialects').create({
       name: '莆仙话',
       code: 'puxian',
       description: '莆田市及周边地区的莆仙方言',
       region: '福建省莆田市',
       speakers: 5000000,
       status: 'active',
+      metadata: {
+        iso_code: 'cpx',
+        alternative_names: ['兴化话', '莆仙语', 'Hinghwa'],
+      },
     });
-    console.log('✓ Created dialect:', dialect.name);
+    console.log('✓ Created main dialect:', puxian.name);
+    
+    // Regional variants
+    putianCity = await pb.collection('dialects').create({
+      name: '莆田城里',
+      code: 'putian-chengshi',
+      description: '莆田市区（城厢区）的口音',
+      parent: puxian.id,
+      region: '福建省莆田市城厢区',
+      speakers: 500000,
+      status: 'active',
+      metadata: {
+        is_standard: true,
+        representative_area: '城厢区',
+        priority: 1,
+        county: '莆田',
+        town: '城里',
+      },
+    });
+    console.log('✓ Created region:', putianCity.name);
+    
+    xianyouCity = await pb.collection('dialects').create({
+      name: '仙游城关',
+      code: 'xianyou-chengguan',
+      description: '仙游县城关地区的口音',
+      parent: puxian.id,
+      region: '福建省莆田市仙游县城关',
+      speakers: 300000,
+      status: 'active',
+      metadata: {
+        representative_area: '仙游县城',
+        priority: 2,
+        county: '仙游',
+        town: '城关',
+      },
+    });
+    console.log('✓ Created region:', xianyouCity.name);
+    
+    xianyouYouyang = await pb.collection('dialects').create({
+      name: '仙游游洋',
+      code: 'xianyou-youyang',
+      description: '仙游县游洋镇的口音',
+      parent: puxian.id,
+      region: '福建省莆田市仙游县游洋镇',
+      speakers: 50000,
+      status: 'active',
+      metadata: {
+        representative_area: '游洋镇',
+        priority: 3,
+        county: '仙游',
+        town: '游洋',
+      },
+    });
+    console.log('✓ Created region:', xianyouYouyang.name);
+    
   } catch (error) {
-    console.log('Dialect may already exist, continuing...');
+    console.log('Dialects may already exist, continuing...');
     const dialects = await pb.collection('dialects').getFullList({ filter: "code='puxian'" });
-    dialect = dialects[0];
+    puxian = dialects[0];
+    
+    // Get regional variants
+    const regions = await pb.collection('dialects').getFullList({ filter: `parent='${puxian.id}'` });
+    putianCity = regions.find(d => d.code === 'putian-chengshi');
+    xianyouCity = regions.find(d => d.code === 'xianyou-chengguan');
+    xianyouYouyang = regions.find(d => d.code === 'xianyou-youyang');
+  }
+  
+  // Helper function to map county/town to dialect
+  const dialectMap = {
+    '莆田-城里': putianCity,
+    '仙游-城关': xianyouCity,
+    '仙游-游洋': xianyouYouyang,
+  };
+  
+  function mapToDialect(county, town) {
+    const key = `${county}-${town}`;
+    return dialectMap[key] || puxian; // Default to main dialect
   }
   
   // Import users
@@ -226,10 +304,13 @@ async function importToPocketbase() {
       continue;
     }
     
+    // Map county/town to dialect
+    const dialect = mapToDialect(pron.county, pron.town);
+    
     try {
       await pb.collection('character_pronunciations').create({
         character: charId,
-        dialect: dialect.id,
+        dialect: dialect.id,  // Use mapped regional dialect
         ipa: pron.ipa,
         romanization: pron.romanization,
         initial: pron.initial,
