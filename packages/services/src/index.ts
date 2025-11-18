@@ -2,23 +2,22 @@
  * Services Package - Main Entry Point
  * 
  * This package provides API services for the Hinghwa Dictionary applications.
- * 
- * Structure:
- * - api/: Low-level API request functions
- * - types/: TypeScript type definitions
- * - src/: Business logic and service layer (future)
  */
 
+// Export client
+export * from './pocketbase-client';
+
+// Export API services
+export * from './api/word.service';
+export * from './api/pronunciation.service';
+export * from './api/user.service';
+export * from './api/article.service';
+export * from './api/quiz.service';
+export * from './api/website.service';
+export * from './api/dialect.service';
+
 // Export types
-export * from './types';
+export * from '../types/pocketbase';
 
-// Export API functions
-export * from './api/base';
-export * from './api/word';
-export * from './api/user';
-
-// Note: Additional API modules will be added as they are migrated
-// - api/article.ts
-// - api/pronunciation.ts
-// - api/quiz.ts
-// etc.
+// Export utils
+export * from './utils/word-utils';

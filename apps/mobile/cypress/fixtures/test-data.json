@@ -1,0 +1,24 @@
+{
+  "testUser": {
+    "username": "testuser",
+    "password": "TestPassword123!",
+    "email": "test@example.com"
+  },
+  "testWords": [
+    {
+      "word": "兴化",
+      "ipa": "hiŋ1 hua2",
+      "definition": "莆田的旧称"
+    }
+  ],
+  "testDialects": [
+    {
+      "name": "莆仙话",
+      "code": "puxian"
+    },
+    {
+      "name": "莆田城里",
+      "code": "putian-city"
+    }
+  ]
+}

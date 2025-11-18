@@ -12,7 +12,9 @@
     "dev:app": "uni -p app",
     "build:app": "uni build -p app",
     "lint": "eslint --ext .js,.vue src --max-warnings 0",
-    "lint:fix": "eslint --ext .js,.vue src --max-warnings 0 --fix"
+    "lint:fix": "eslint --ext .js,.vue src --max-warnings 0 --fix",
+    "test:e2e": "cypress run",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "constants": "workspace:*",
@@ -50,6 +52,8 @@
     "sass-loader": "^13.2.0",
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
-    "vite": "3.2.4"
+    "vite": "3.2.4",
+    "cypress": "^13.6.0",
+    "@types/cypress": "^1.1.3"
   }
 }
