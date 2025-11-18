@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  pocketbase-test:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: pocketbase-test
+    restart: unless-stopped
+    ports:
+      - "8091:8090"
+    volumes:
+      - ./pocketbase/pb_data_test:/pb_data
+      - ./pocketbase/pb_migrations:/pb_migrations
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8090/api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  audio-service-test:
+    build: ./audio-service
+    container_name: audio-service-test
+    ports:
+      - "8002:8001"
+    environment:
+      - PHONEME_DIR=/app/phonemes
+    volumes:
+      - ./audio-service/phonemes:/app/phonemes
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  mobile-app-test:
+    build:
+      context: ./apps/mobile
+      dockerfile: Dockerfile.dev
+    container_name: mobile-app-test
+    ports:
+      - "3001:3000"
+    environment:
+      - VITE_POCKETBASE_URL=http://pocketbase-test:8090
+      - VITE_AUDIO_SERVICE_URL=http://audio-service-test:8001
+    volumes:
+      - ./apps/mobile/src:/app/src
+      - ./packages:/packages
+    depends_on:
+      pocketbase-test:
+        condition: service_healthy
+      audio-service-test:
+        condition: service_healthy
+
+  cypress:
+    image: cypress/included:13.6.0
+    container_name: cypress-test
+    environment:
+      - CYPRESS_baseUrl=http://mobile-app-test:3000
+      - CYPRESS_VIDEO=true
+      - CYPRESS_SCREENSHOTS=true
+    volumes:
+      - ./apps/mobile/cypress:/cypress
+      - ./apps/mobile/cypress.config.ts:/cypress.config.ts
+      - ./cypress-results:/results
+    working_dir: /
+    depends_on:
+      - mobile-app-test
+    command: cypress run
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
